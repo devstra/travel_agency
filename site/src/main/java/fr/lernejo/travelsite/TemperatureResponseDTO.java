@@ -15,4 +15,12 @@ public class TemperatureResponseDTO {
         this.country = country;
         this.temperatures = temperatures;
     }
+
+    public TravelDTO getAverageTemperatureAsTravel() {
+        final double sumOfTemperatures = temperatures.stream()
+            .map(temp -> temp.temperature)
+            .reduce(0.0, Double::sum);
+        return new TravelDTO(country,
+            sumOfTemperatures / temperatures.size());
+    }
 }

@@ -10,9 +10,9 @@ import java.util.*;
 
 @Service
 public class TravelSiteService {
-    private final PredictionEngineClient predictionEngineClient;
-    private final Map<String, InscriptionDTO> inscriptions = new HashMap<>();
-    private final List<String> countries = new ArrayList<>();
+    final PredictionEngineClient predictionEngineClient;
+    final Map<String, InscriptionDTO> inscriptions = new HashMap<>();
+    final List<String> countries = new ArrayList<>();
 
     public TravelSiteService(PredictionEngineClient predictionEngineClient) throws IOException {
         this.predictionEngineClient = predictionEngineClient;

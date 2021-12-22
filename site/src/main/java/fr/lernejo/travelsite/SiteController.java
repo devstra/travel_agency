@@ -1,6 +1,5 @@
 package fr.lernejo.travelsite;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -8,15 +7,30 @@ import java.util.List;
 
 @RestController
 public class SiteController {
+    private final TravelSiteService travelSiteService;
+
+    public SiteController(TravelSiteService travelSiteService) {
+        this.travelSiteService = travelSiteService;
+    }
 
     @PostMapping(value = "/api/inscription", consumes = {"application/json"})
     ResponseEntity<InscriptionDTO> postInscription(@RequestBody InscriptionDTO inscription) {
-        return new ResponseEntity<>(HttpStatus.OK);
+        try {
+            travelSiteService.registerUser(inscription);
+            return ResponseEntity.ok().build();
+        } catch (Exception ex) {
+            System.err.println(ex.getMessage());
+            return ResponseEntity.badRequest().build();
+        }
     }
 
     @GetMapping("/api/travels")
     ResponseEntity<List<TravelDTO>> getUserTravels(@RequestParam("userName") String userName) {
-        return new ResponseEntity<>(List.of(new TravelDTO("Australia", 35.1),
-            new TravelDTO("Caribbean", 32.4)), HttpStatus.OK);
+        try {
+            return ResponseEntity.ok(travelSiteService.getTravelsByUsername(userName));
+        } catch (Exception ex) {
+            System.err.println(ex.getMessage());
+            return ResponseEntity.notFound().build();
+        }
     }
 }
